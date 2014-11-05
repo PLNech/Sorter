@@ -13,6 +13,16 @@ def init():
     filename = sys.argv[1]
     print "Processing", filename
 
+    print "What is the language code of input language? (default DE)"
+    userInput = raw_input("code:")
+    if userInput != "":
+        inputLang = userInput
+
+    print "What is the language code of the output language? (default EN)"
+    userInput = raw_input("code:")
+    if userInput != "":
+        inputLang = userInput
+
     while loop == 1:
         print """What is the name of the valid output file?
         (default out.valid.txt)"""
@@ -32,15 +42,14 @@ def init():
 
     loop = 1
     while loop == 1:
-            print """What is the name of the unsure output file?
+        print """What is the name of the unsure output file?
             (default out.maybe.txt)"""
-            userInput = raw_input("path: ")
-            if userInput == "":
-                userInput = "out.maybe.txt"
-            loop, maybeFile = try_open(userInput)
+        userInput = raw_input("path: ")
+        if userInput == "":
+            userInput = "out.maybe.txt"
+        loop, maybeFile = try_open(userInput)
 
-            files = [yesFile, noFile, maybeFile]
-
+    files = [yesFile, noFile, maybeFile]
     print "What is the selection criteria? (default: a profanity)"
     criteria = raw_input("a world is valid if it is ")
     if criteria is "":
@@ -88,7 +97,8 @@ def process(word, criteria, files):
             noFile.flush()
         elif(value == 2):
             print word, "is maybe", criteria + "."
-            maybeFile.write(wordalue == 3):
+            maybeFile.write(word)
+        else:
             define(word)
 
 def queryWord(word, criteria):
@@ -99,9 +109,9 @@ def queryWord(word, criteria):
     default = "def";
     choice = "todo";
     valid = {"y":0, "ye":0,          "yes"   :0,
-             "n":1,                  "no"    :1,
-             "m":2, "ma":2, "may":2, "maybe" :2,
-             "d":3, "de":3, "def":3, "define":3}
+            "n":1,                  "no"    :1,
+            "m":2, "ma":2, "may":2, "maybe" :2,
+            "d":3, "de":3, "def":3, "define":3}
     print "Is " + word.replace("\n",""), criteria + "?"
     while choice not in valid:
         choice = raw_input().lower()
@@ -114,9 +124,9 @@ def queryWord(word, criteria):
             sys.stderr.write("Please answer with yes (y), no (n), def (d) or maybe (m).\n")
 
 def define(word):
-    print word
+    print "Let's define", word
     subprocess.call("./dict.cc.py " + inputLang + " "
-                    + outputLang + " " + word, shell="True")
+            + outputLang + " " + word, shell="True")
     print "\n"
 
 
